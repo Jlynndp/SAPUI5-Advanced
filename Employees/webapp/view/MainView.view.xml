@@ -52,7 +52,7 @@
                                         </Column>
                                     </columns>
                                     <items>
-                                        <ColumnListItem>
+                                        <ColumnListItem type="Active" press="showPostalcode">
                                             <cells>
                                                 <Label text="{EmployeeID}"/>
                                                 <Label text="{LastName}, {FirstName}"/>
