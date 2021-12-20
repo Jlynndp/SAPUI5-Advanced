@@ -40,27 +40,49 @@ sap.ui.define([
             //     oJSONModel.setData(oJSON);
 
             //load model from file
-            oJSONModel.loadData("./localService/mockdata/Employees.json", false);
-            //show loaded model
-            oJSONModel.attachRequestCompleted(function (oEventModel) {
-                console.log(JSON.stringify(oJSONModel.getData()));
-            });
+            //@ts-ignore
+            var oJSONModelEmployees = new sap.ui.model.json.JSONModel();
+            oJSONModelEmployees.loadData("./localService/mockdata/Employees.json", false);
+            oView.setModel(oJSONModelEmployees, "jsonEmployees");
 
-            oView.setModel(oJSONModel);
+            var oJSONModelCountries = new sap.ui.model.json.JSONModel();
+            oJSONModelCountries.loadData("./localService/mockdata/Countries.json", false);
+            oView.setModel(oJSONModelCountries, "jsonCountries");
+
+            //config columns properties
+            var oJSONModelConfig = new sap.ui.model.json.JSONModel({
+                visibleId : true,
+                visibleName : true,
+                visibleCountry : true,
+                visibleCity : false,
+                visibleBtnShowCity : true,
+                visibleBtnHideCity : false,
+            });
+            oView.setModel(oJSONModelConfig, "jsonModelConfig")
+
+            // //show loaded model
+            // oJSONModel.attachRequestCompleted(function (oEventModel) {
+            //     console.log(JSON.stringify(oJSONModel.getData()));
+            // });
         };
 
         //Filter button implemetation 
         function onFilter() {
             //get current data of the model
-            var oJSON = this.getView().getModel().getData();
+            //var oJSON = this.getView().getModel().getData();
+
+            //get countries model
+            var oJSONCountries = this.getView().getModel("jsonCountries").getData();
             var filters = [];
 
             //create filter with the data
-            if (oJSON.EmployeeId !== "") {
-                filters.push(new Filter("EmployeeID", FilterOperator.EQ, oJSON.EmployeeId));
+            if (oJSONCountries.EmployeeId !== "") {
+                // filters.push(new Filter("EmployeeID", FilterOperator.EQ, oJSON.EmployeeId));
+                filters.push(new Filter("EmployeeID", FilterOperator.EQ, oJSONCountries.EmployeeId));
             }
-            if (oJSON.CountryKey !== "") {
-                filters.push(new Filter("Country", FilterOperator.EQ, oJSON.CountryKey));
+            if (oJSONCountries.CountryKey !== "") {
+                // filters.push(new Filter("Country", FilterOperator.EQ, oJSON.CountryKey));
+                filters.push(new Filter("Country", FilterOperator.EQ, oJSONCountries.CountryKey));
             }
 
             //update table with filters
@@ -71,7 +93,8 @@ sap.ui.define([
 
         //clear filters on table
         function onClearFilter() {
-            var oModel = this.getView().getModel();
+            // var oModel = this.getView().getModel();
+            var oModel = this.getView().getModel("jsonCountries");
             oModel.setProperty("/EmployeeId", "");
             oModel.setProperty("/CountryKey", "");
 
@@ -83,9 +106,24 @@ sap.ui.define([
 
         function showPostalcode(oEvent) {
             var itemPressed = oEvent.getSource();                                           //get pressed item from event
-            var oContext = itemPressed.getBindingContext();                                 //get context from the pressed item
+            // var oContext = itemPressed.getBindingContext();                              //get context from the pressed item
+            var oContext = itemPressed.getBindingContext("jsonEmployees");                  //get Employees context from the pressed item
             var objectContext = oContext.getObject();                                       //object from model
             sap.m.MessageToast.show(objectContext.PostalCode);
+        };
+
+        function onShowCity(){
+            var oJSONModelConfig = this.getView().getModel("jsonModelConfig");
+            oJSONModelConfig.setProperty("/visibleCity", true);
+            oJSONModelConfig.setProperty("/visibleBtnShowCity", false);
+            oJSONModelConfig.setProperty("/visibleBtnHideCity", true);
+        };
+
+        function onHideCity(){
+            var oJSONModelConfig = this.getView().getModel("jsonModelConfig");
+            oJSONModelConfig.setProperty("/visibleCity", false);
+            oJSONModelConfig.setProperty("/visibleBtnShowCity", true);
+            oJSONModelConfig.setProperty("/visibleBtnHideCity", false);
         }
 
         //prototype to clear js-error
@@ -111,6 +149,8 @@ sap.ui.define([
         Main.prototype.onFilter = onFilter;
         Main.prototype.onClearFilter = onClearFilter;
         Main.prototype.showPostalcode = showPostalcode;
+        Main.prototype.onShowCity = onShowCity;
+        Main.prototype.onHideCity = onHideCity;
         return Main;
 
         /** 
