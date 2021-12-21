@@ -13,57 +13,7 @@ sap.ui.define([
         "use strict";
 
         function onInit() {
-            var oJSONModel = new sap.ui.model.json.JSONModel();
-
-            //json model for countries
-            var oView = this.getView();
-            // //get i18n resources
-            // var i18nBundle = oView.getModel("i18n").getResourceBundle();
-            //     var oJSON = {
-            //         employeeId: "12345",
-            //         countryKey: "UK",
-            //         listCountry: [
-            //             {
-            //                 key: "US",
-            //                 text: i18nBundle.getText("CountryUS")
-            //             },
-            //             {
-            //                 key: "UK",
-            //                 text: i18nBundle.getText("CountryUK")
-            //             },
-            //             {
-            //                 key: "ES",
-            //                 text: i18nBundle.getText("CountryES")
-            //             },
-            //         ]
-            //     };
-            //     oJSONModel.setData(oJSON);
-
-            //load model from file
-            //@ts-ignore
-            var oJSONModelEmployees = new sap.ui.model.json.JSONModel();
-            oJSONModelEmployees.loadData("./localService/mockdata/Employees.json", false);
-            oView.setModel(oJSONModelEmployees, "jsonEmployees");
-
-            var oJSONModelCountries = new sap.ui.model.json.JSONModel();
-            oJSONModelCountries.loadData("./localService/mockdata/Countries.json", false);
-            oView.setModel(oJSONModelCountries, "jsonCountries");
-
-            //config columns properties
-            var oJSONModelConfig = new sap.ui.model.json.JSONModel({
-                visibleId: true,
-                visibleName: true,
-                visibleCountry: true,
-                visibleCity: false,
-                visibleBtnShowCity: true,
-                visibleBtnHideCity: false,
-            });
-            oView.setModel(oJSONModelConfig, "jsonModelConfig")
-
-            // //show loaded model
-            // oJSONModel.attachRequestCompleted(function (oEventModel) {
-            //     console.log(JSON.stringify(oJSONModel.getData()));
-            // });
+            
         };
 
         //Filter button implemetation 
