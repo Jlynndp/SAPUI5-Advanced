@@ -28,7 +28,7 @@
                         </HBox>
                         <HBox>
                             <Panel>
-                                <!--bind properties-->
+                                <!--bind column properties-->
                                 <Button id="btnShowCity" text="{i18n>btnShowCity}" visible="{jsonModelConfig>/visibleBtnShowCity}" press="onShowCity"/>
                                 <Button id="btnHideCity" text="{i18n>btnHideCity}" visible="{jsonModelConfig>/visibleBtnHideCity}" press="onHideCity"/>
                                 <Table id="tableEmployee" items="{jsonEmployees>/Employees}">
@@ -55,7 +55,8 @@
                                         </Column>
                                     </columns>
                                     <items>
-                                        <ColumnListItem type="Active" press="showPostalcode">
+                                        <!--<ColumnListItem type="Active" press="showPostalcode">-->
+                                        <ColumnListItem type="Active" press="showOrders">
                                             <cells>
                                                 <Label text="{jsonEmployees>EmployeeID}"/>
                                                 <Label text="{jsonEmployees>LastName}, {jsonEmployees>FirstName}"/>
@@ -66,6 +67,10 @@
                                     </items>
                                 </Table>
                             </Panel>
+                        </HBox>
+
+                        <!--Orders Box-->
+                        <HBox id="ordersTable">
                         </HBox>
                     </content>
                 </Page>
