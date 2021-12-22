@@ -13,7 +13,7 @@ sap.ui.define([
         "use strict";
 
         function onInit() {
-            
+            this._bus = sap.ui.getCore().getEventBus();
         };
 
         //Filter button implemetation 
@@ -96,6 +96,12 @@ sap.ui.define([
 
         function onCloseOrders() {
             this._oDialogOrders.close();
+        };
+
+        function showEmployee(oEvent) {
+            var path = oEvent.getSource().getBindingContext("jsonEmployees").getPath();
+            //category, event_name, object
+            this._bus.publish("flexible", "showEmployee", path);
         }
 
         //prototype to clear js-error
@@ -125,6 +131,7 @@ sap.ui.define([
         Main.prototype.onHideCity = onHideCity;
         Main.prototype.showOrders = showOrders;
         Main.prototype.onCloseOrders = onCloseOrders;
+        Main.prototype.showEmployee =  showEmployee;
         return Main;
 
         /** 

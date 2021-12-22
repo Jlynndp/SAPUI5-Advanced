@@ -4,7 +4,7 @@ sap.ui.define([
 ],
 
     function (Controller) {
-        return Controller.extend("logaligroup.Employee.controller.Main", {
+        return Controller.extend("logaligroup.Employees.controller.Main", {
 
             onInit: function () {
                 var oJSONModel = new sap.ui.model.json.JSONModel();
@@ -35,7 +35,19 @@ sap.ui.define([
                     visibleBtnShowCity: true,
                     visibleBtnHideCity: false,
                 });
-                oView.setModel(oJSONModelConfig, "jsonModelConfig")
+                oView.setModel(oJSONModelConfig, "jsonModelConfig");
+
+                this._bus = sap.ui.getCore().getEventBus();
+                //category, event_name, event_function, instance
+                this._bus.subscribe("flexible", "showEmployee", this.showEmployeeDetails, this);
+
+            },
+
+            showEmployeeDetails: function (category, nameEvent, path) {
+                var detailView = this.getView().byId("detailEmployeeView");
+                detailView.bindElement("jsonEmployees>" + path);
+                //set layout to show detail panel
+                this.getView().getModel("jsonLayouts").setProperty("/ActiveKey", "TwoColumnsMidExpanded");
             }
         });
     });

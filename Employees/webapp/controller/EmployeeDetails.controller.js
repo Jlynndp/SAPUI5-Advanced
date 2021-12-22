@@ -4,7 +4,7 @@ sap.ui.define([
 ],
 
     function (Controller) {
-        return Controller.extend("logaligroup.Employee.controller.EmployeeDetails", {
+        return Controller.extend("logaligroup.Employees.controller.EmployeeDetails", {
 
             onInit: function () {
 
