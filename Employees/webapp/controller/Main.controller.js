@@ -45,7 +45,7 @@ sap.ui.define([
 
             showEmployeeDetails: function (category, nameEvent, path) {
                 var detailView = this.getView().byId("detailEmployeeView");
-                detailView.bindElement("jsonEmployees>" + path);
+                detailView.bindElement("odataNorthwind>" + path);
                 //set layout to show detail panel
                 this.getView().getModel("jsonLayouts").setProperty("/ActiveKey", "TwoColumnsMidExpanded");
 

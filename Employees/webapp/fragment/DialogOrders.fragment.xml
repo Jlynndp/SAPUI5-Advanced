@@ -3,7 +3,7 @@
 
     <Dialog title="{i18n>orders}">
         <content>
-            <Table items="{jsonEmployees>Orders}" width="700px">
+            <Table items="{odataNorthwind>Orders}" width="700px">
                 <columns>
                     <Column >
                         <header>
@@ -25,9 +25,9 @@
                 <items>
                     <ColumnListItem >
                         <cells>
-                            <Label text="{jsonEmployees>OrderID}"/>
-                            <Label text="{jsonEmployees>Freight}"/>
-                            <Label text="{jsonEmployees>ShipAddress}"/>
+                            <Label text="{odataNorthwind>OrderID}"/>
+                            <Label text="{odataNorthwind>Freight}"/>
+                            <Label text="{odataNorthwind>ShipAddress}"/>
                         </cells>
                     </ColumnListItem>
                 </items>
