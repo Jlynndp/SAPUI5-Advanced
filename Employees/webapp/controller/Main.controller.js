@@ -48,6 +48,13 @@ sap.ui.define([
                 detailView.bindElement("jsonEmployees>" + path);
                 //set layout to show detail panel
                 this.getView().getModel("jsonLayouts").setProperty("/ActiveKey", "TwoColumnsMidExpanded");
+
+                //bind Incidences controller
+                var oJSONModelIncidence = new sap.ui.model.json.JSONModel([]);
+                detailView.setModel(oJSONModelIncidence, "incidenceModel");
+
+                //reset incidence model for new execution
+                detailView.byId("tableIncidence").removeAllContent();
             }
         });
     });
