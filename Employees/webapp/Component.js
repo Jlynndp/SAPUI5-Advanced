@@ -25,6 +25,9 @@ sap.ui.define([
 
 			// set the device model
 			this.setModel(models.createDeviceModel(), "device");
-		}
+		},
+
+        //set global parameter
+        SapId : "jennie.diaz@gmail.com"
 	});
 });
