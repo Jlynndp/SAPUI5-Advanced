@@ -30,29 +30,39 @@ sap.ui.define([
         };
 
         function onDeleteIncidence(oEvent) {
-            //identify incidences table
-            var tableIncidence = this.getView().byId("tableIncidence");
-            //get selected row
-            var rowIncidence = oEvent.getSource().getParent().getParent();
-            var incidenceModel = this.getView().getModel("incidenceModel");
-            var oData = incidenceModel.getData();
-            //get model context
-            var contextObject = rowIncidence.getBindingContext("incidenceModel").getObject();
+            //get context object
+            var contextObject = oEvent.getSource().getBindingContext("incidenceModel").getObject();
 
-            //delete selected incidence: from_index, number_of_elements
-            oData.splice(contextObject.index - 1, 1);
-            for (var i in oData) {
-                oData[i].index = parseInt(i) + 1;
-            };
+            //publish service
+            this._bus.publish("incidence", "onDeleteIncidence", {
+                IncidenceId: contextObject.IncidenceId,
+                SapId: contextObject.SapId,
+                EmployeeId: contextObject.EmployeeId
+            });
 
-            //update model content
-            incidenceModel.refresh();
-            tableIncidence.removeContent(rowIncidence);
+            // //identify incidence table
+            // var tableIncidence = this.getView().byId("tableIncidence");
+            // //get selected row
+            // var rowIncidence = oEvent.getSource().getParent().getParent();
+            // var incidenceModel = this.getView().getModel("incidenceModel");
+            // var oData = incidenceModel.getData();
+            // //get model context
+            // var contextObject = rowIncidence.getBindingContext("incidenceModel").getObject();
 
-            //remove content from incidence table
-            for (var j in tableIncidence.getContent()) {
-                tableIncidence.getContent()[j].bindElement("incidenceModel>/" + j);
-            }
+            // //delete selected incidence: from_index, number_of_elements
+            // oData.splice(contextObject.index - 1, 1);
+            // for (var i in oData) {
+            //     oData[i].index = parseInt(i) + 1;
+            // };
+
+            // //update model content
+            // incidenceModel.refresh();
+            // tableIncidence.removeContent(rowIncidence);
+
+            // //remove content from incidence table
+            // for (var j in tableIncidence.getContent()) {
+            //     tableIncidence.getContent()[j].bindElement("incidenceModel>/" + j);
+            // }
         };
 
         function onSaveIncidence(oEvent) {

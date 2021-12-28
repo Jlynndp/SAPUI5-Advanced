@@ -31,7 +31,6 @@
                         <core:Item key="2" text="{i18n>incidenceError}"/>
                     </Select>
                 </VBox>
-
             </HBox>
         </content>
     </Panel>

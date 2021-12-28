@@ -49,6 +49,26 @@ sap.ui.define([
                 //subscribe save incidence event
                 this._bus.subscribe("incidence", "onSaveIncidence", this.onSaveDataIncidence, this);
 
+                this._bus.subscribe("incidence", "onDeleteIncidence", function (channelId, eventId, data) {
+                    var oResourceBundle = this.getView().getModel("i18n").getResourceBundle();
+
+                    //call odata delete service. Key: IncidenceId='xxx',SapId='xxx',EmployeeId='xxx')",
+                    this.getView().getModel("incidenceModel").remove("/IncidentsSet(IncidenceId='" + data.IncidenceId +
+                                                                     "',SapId='" + data.SapId +
+                                                                     "',EmployeeId='" + data.EmployeeId + "')", {
+                        success: function () {
+                            //update incidence table
+                            this.onReadDataIncidence.bind(this)(data.EmployeeId);
+                            sap.m.MessageToast.show(oResourceBundle.getText("oDataDeleteOK"));
+                        }.bind(this),
+
+                        error: function (e) {
+                            sap.m.MessageToast.show(oResourceBundle.getText("oDataDeleteKO"));
+                        }.bind(this)
+                    });
+
+                }, this);
+
             },
 
             showEmployeeDetails: function (category, nameEvent, path) {
