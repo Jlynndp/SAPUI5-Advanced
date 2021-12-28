@@ -109,7 +109,8 @@ sap.ui.define([
                     this.getView().getModel("incidenceModel").create("/IncidentsSet", body, {
                         success: function () {
                             this.onReadDataIncidence.bind(this)(employeeId);
-                            sap.m.MessageToast.show(oResourceBundle.getText("oDataSaveOK"));
+                            //sap.m.MessageToast.show(oResourceBundle.getText("oDataSaveOK"));
+                            sap.m.MessageBox.success(oResourceBundle.getText("oDataSaveOK"));
                         }.bind(this),
                         error: function (e) {
                             sap.m.MessageToast.show(oResourceBundle.getText("oDataSaveKO"));
@@ -167,6 +168,10 @@ sap.ui.define([
 
                         //add incidences to incidence model
                         for (var incidence in data.results) {
+
+                            data.results[incidence]._ValidDate = true;
+                            data.results[incidence].EnabledSave = false;
+
                             var newIncidence = sap.ui.xmlfragment("logaligroup.Employees.fragment.NewIncidence", this._detailEmployeeView.getController());
                             this._detailEmployeeView.addDependent(newIncidence);
                             newIncidence.bindElement("incidenceModel>/" + incidence);
@@ -174,6 +179,7 @@ sap.ui.define([
                         }
 
                     }.bind(this),
+
                     error: function (e) {
                     }.bind(this)
                 });
