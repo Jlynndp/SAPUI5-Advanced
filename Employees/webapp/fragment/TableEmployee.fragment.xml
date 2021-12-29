@@ -1,6 +1,5 @@
 <core:FragmentDefinition xmlns:core = "sap.ui.core"
     xmlns="sap.m">
-
     <Panel>
         <!--bind column properties-->
         <Button id="btnShowCity" text="{i18n>btnShowCity}" visible="{jsonModelConfig>/visibleBtnShowCity}" press="onShowCity"/>

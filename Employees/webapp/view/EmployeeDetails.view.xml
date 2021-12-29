@@ -4,7 +4,7 @@
     xmlns:core="sap.ui.core">
 
     <Page title="{i18n>employeeDetails}">
-        <Panel >
+        <Panel>
             <FlexBox height="65px" alignItems="Center" justifyContent="Center">
                 <items>
                     <Text text="{odataNorthwind>TitleOfCourtesy} {odataNorthwind>FirstName} {odataNorthwind>LastName}" class="boldText"/>
@@ -42,7 +42,7 @@
             </FlexBox>
         </Panel>
 
-        <!--table Incidences-->
+        <!--Incidences table-->
         <Panel class="sapUiSizeCompact" backgroundDesign="Transparent">
             <headerToolbar>
                 <Toolbar >
@@ -53,6 +53,11 @@
                 </Toolbar>
             </headerToolbar>
             <Panel id="tableIncidence" class="sapUiNoContentPadding" backgroundDesign="Transparent"></Panel>
+        </Panel>
+
+        <!--orders table-->
+        <Panel class="sapUiSizeCompact" backgroundDesign="Transparent" headerText="{i18n>orders}">
+            <core:Fragment fragmentName="logaligroup.Employees.fragment.TableOrders" type="XML"/>
         </Panel>
     </Page>
 </mvc:View>

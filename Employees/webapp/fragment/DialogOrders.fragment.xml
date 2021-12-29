@@ -3,35 +3,7 @@
 
     <Dialog title="{i18n>orders}">
         <content>
-            <Table items="{odataNorthwind>Orders}" width="700px">
-                <columns>
-                    <Column >
-                        <header>
-                            <Label text="{i18n>orderID}"></Label>
-                        </header>
-                    </Column>
-                    <Column >
-                        <header>
-                            <Label text="{i18n>freight}"></Label>
-                        </header>
-                    </Column>
-                    <Column >
-                        <header>
-                            <Label text="{i18n>shipAddress}"></Label>
-                        </header>
-                    </Column>
-                </columns>
-
-                <items>
-                    <ColumnListItem >
-                        <cells>
-                            <Label text="{odataNorthwind>OrderID}"/>
-                            <Label text="{odataNorthwind>Freight}"/>
-                            <Label text="{odataNorthwind>ShipAddress}"/>
-                        </cells>
-                    </ColumnListItem>
-                </items>
-            </Table>
+            <core:Fragment fragmentName="logaligroup.Employees.fragment.TableOrders" type="XML"/>
         </content>
         <endButton>
             <Button text="{i18n>close}" press="onCloseOrders"/>
