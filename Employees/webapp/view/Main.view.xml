@@ -3,36 +3,28 @@
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
     xmlns:f="sap.f">
+    <Page showHeader="false">
+        <content>
+            <f:FlexibleColumnLayout id="fcl" backgroundDesign="Solid" layout="{jsonLayouts>/ActiveKey}">
+                <f:beginColumnPages>
+                    <mvc:XMLView id="masterEmployeeView" viewName="logaligroup.Employees.view.MasterEmployee"/>
+                </f:beginColumnPages>
+                <f:midColumnPages>
+                    <mvc:XMLView id="detailEmployeeView" viewName="logaligroup.Employees.view.EmployeeDetails"/>
+                </f:midColumnPages>
+                <f:endColumnPages>
+                    <Page/>
+                </f:endColumnPages>
+            </f:FlexibleColumnLayout>
+        </content>
 
-    <Shell id="shell">
-        <App id="app">
-            <pages>
-                <Page showHeader="false">
-                    <content>
-                        <f:FlexibleColumnLayout id="fcl" backgroundDesign="Solid" layout="{jsonLayouts>/ActiveKey}">
-                            <f:beginColumnPages>
-                                <mvc:XMLView id="masterEmployeeView" viewName="logaligroup.Employees.view.MasterEmployee"/>
-                            </f:beginColumnPages>
-                            <f:midColumnPages>
-                                <mvc:XMLView id="detailEmployeeView" viewName="logaligroup.Employees.view.EmployeeDetails"/>
-                            </f:midColumnPages>
-                            <f:endColumnPages>
-                                <Page/>
-                            </f:endColumnPages>
-                        </f:FlexibleColumnLayout>
-                    </content>
-
-                    <footer>
-                        <Toolbar >
-                            <Label text="{i18n>layout}" class="sapUiSmallMargin"/>
-                            <Select items="{jsonLayouts>/Layout}" selectedKey="{jsonLayouts>/ActiveKey}">
-                                <core:Item key="{jsonLayouts>Key}" text="{jsonLayouts>Text}"/>
-                            </Select>
-                        </Toolbar>
-                    </footer>
-                </Page>
-
-            </pages>
-        </App>
-    </Shell>
+        <footer>
+            <Toolbar >
+                <Label text="{i18n>layout}" class="sapUiSmallMargin"/>
+                <Select items="{jsonLayouts>/Layout}" selectedKey="{jsonLayouts>/ActiveKey}">
+                    <core:Item key="{jsonLayouts>Key}" text="{jsonLayouts>Text}"/>
+                </Select>
+            </Toolbar>
+        </footer>
+    </Page>
 </mvc:View>

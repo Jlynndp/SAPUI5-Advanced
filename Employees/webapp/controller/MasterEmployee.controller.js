@@ -83,7 +83,7 @@ sap.ui.define([
             //context from the model
             // var oContext = iconPressed.getBindingContext("jsonEmployees");
             var oContext = iconPressed.getBindingContext("odataNorthwind");
-            
+
             //get fragment instance
             if (!this._oDialogOrders) {
                 this._oDialogOrders = sap.ui.xmlfragment("logaligroup.Employees.fragment.DialogOrders", this);
@@ -104,7 +104,18 @@ sap.ui.define([
             var path = oEvent.getSource().getBindingContext("odataNorthwind").getPath();
             //category, event_name, object
             this._bus.publish("flexible", "showEmployee", path);
-        }
+        };
+
+        function toOrderDetails(oEvent) {
+            //get parameter orderId: source/model/object/property
+            var orderId = oEvent.getSource().getBindingContext("odataNorthwind").getObject().OrderID;
+            //get router for the instance
+            var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+            //nav to Route with parameter -> OrderDetails/{OrderId}
+            oRouter.navTo("RouteOrderDetails", {
+                OrderId: orderId
+            });
+        };
 
         //prototype to clear js-error
         var Main = Controller.extend("logaligroup.Employees.controller.MainView", {});
@@ -133,7 +144,8 @@ sap.ui.define([
         Main.prototype.onHideCity = onHideCity;
         Main.prototype.showOrders = showOrders;
         Main.prototype.onCloseOrders = onCloseOrders;
-        Main.prototype.showEmployee =  showEmployee;
+        Main.prototype.showEmployee = showEmployee;
+        Main.prototype.toOrderDetails = toOrderDetails;
         return Main;
 
         /** 

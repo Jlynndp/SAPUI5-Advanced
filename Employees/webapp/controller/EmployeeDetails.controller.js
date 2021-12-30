@@ -21,9 +21,11 @@ sap.ui.define([
             var oData = incidenceModel.getData();
             var index = oData.length;
             // "_" external property (no-sap)
-            oData.push({ index: index + 1, 
-                         _ValidDate: false, 
-                        EnabledSave : false });
+            oData.push({
+                index: index + 1,
+                _ValidDate: false,
+                EnabledSave: false
+            });
 
             //refresh model
             incidenceModel.refresh();
@@ -97,13 +99,13 @@ sap.ui.define([
 
                 //show error message with object properties
                 MessageBox.error(oResourceBundle.getText("errorCreationDateValue"), {
-                    title : "Error",
-                    onClose : null,
-                    styleClass : "",
-                    actions : MessageBox.Action.CLOSE,
-                    emphasizedAction : null,
-                    initialFocus : null,
-                    textDirection : sap.ui.core.TextDirection.Inherit
+                    title: "Error",
+                    onClose: null,
+                    styleClass: "",
+                    actions: MessageBox.Action.CLOSE,
+                    emphasizedAction: null,
+                    initialFocus: null,
+                    textDirection: sap.ui.core.TextDirection.Inherit
                 });
 
             } else {
@@ -125,7 +127,7 @@ sap.ui.define([
         function updateIncidenceReason(oEvent) {
             let context = oEvent.getSource().getBindingContext("incidenceModel");
             let contextObject = context.getObject();
-            
+
             if (oEvent.getSource().getValue()) {
                 contextObject.ReasonX = true;
                 contextObject.CreationReasonState = "None";
@@ -139,7 +141,6 @@ sap.ui.define([
             } else {
                 contextObject.EnabledSave = false;
             };
-
             context.getModel().refresh();
         };
 
@@ -152,10 +153,20 @@ sap.ui.define([
             } else {
                 contextObject.EnabledSave = false;
             };
-
             contextObject.TypeX = true;
+            context.getModel().refresh();
         };
 
+        function toOrderDetails(oEvent) {
+            //get parameter orderId: source/model/object/property
+            var orderId = oEvent.getSource().getBindingContext("odataNorthwind").getObject().OrderID;
+            //get router for the instance
+            var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+            //nav to Route with parameter -> OrderDetails/{OrderId}
+            oRouter.navTo("RouteOrderDetails", {
+                OrderId: orderId
+            });
+        };
 
         //binding for incidenceModel
         var Main = Controller.extend("logaligroup.Employees.controller.EmployeeDetails", []);
@@ -167,6 +178,7 @@ sap.ui.define([
         Main.prototype.updateIncidenceCreationDate = updateIncidenceCreationDate;
         Main.prototype.updateIncidenceReason = updateIncidenceReason;
         Main.prototype.updateIncidenceType = updateIncidenceType;
+        Main.prototype.toOrderDetails = toOrderDetails;
 
         return Main;
 
