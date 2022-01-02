@@ -1,6 +1,7 @@
 //@ts-nocheck
 sap.ui.define([
-    "sap/ui/core/mvc/Controller",
+    //"sap/ui/core/mvc/Controller",     has to be deleted to avoid conflict with Base.controller
+    "logaligroup/Employees/controller/Base.controller",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator"
 ],
@@ -106,16 +107,16 @@ sap.ui.define([
             this._bus.publish("flexible", "showEmployee", path);
         };
 
-        function toOrderDetails(oEvent) {
-            //get parameter orderId: source/model/object/property
-            var orderId = oEvent.getSource().getBindingContext("odataNorthwind").getObject().OrderID;
-            //get router for the instance
-            var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-            //nav to Route with parameter -> OrderDetails/{OrderId}
-            oRouter.navTo("RouteOrderDetails", {
-                OrderId: orderId
-            });
-        };
+        // function toOrderDetails(oEvent) {
+        //     //get parameter orderId: source/model/object/property
+        //     var orderId = oEvent.getSource().getBindingContext("odataNorthwind").getObject().OrderID;
+        //     //get router for the instance
+        //     var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+        //     //nav to Route with parameter -> OrderDetails/{OrderId}
+        //     oRouter.navTo("RouteOrderDetails", {
+        //         OrderId: orderId
+        //     });
+        // };
 
         //prototype to clear js-error
         var Main = Controller.extend("logaligroup.Employees.controller.MainView", {});
@@ -145,7 +146,7 @@ sap.ui.define([
         Main.prototype.showOrders = showOrders;
         Main.prototype.onCloseOrders = onCloseOrders;
         Main.prototype.showEmployee = showEmployee;
-        Main.prototype.toOrderDetails = toOrderDetails;
+        //Main.prototype.toOrderDetails = toOrderDetails;
         return Main;
 
         /** 

@@ -1,6 +1,6 @@
 //@ts-nocheck
 sap.ui.define([
-    "sap/ui/core/mvc/Controller",
+    "logaligroup/Employees/controller/Base.controller",
     "logaligroup/Employees/model/formatter",
     "sap/m/MessageBox",
 ],
@@ -157,16 +157,17 @@ sap.ui.define([
             context.getModel().refresh();
         };
 
-        function toOrderDetails(oEvent) {
-            //get parameter orderId: source/model/object/property
-            var orderId = oEvent.getSource().getBindingContext("odataNorthwind").getObject().OrderID;
-            //get router for the instance
-            var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-            //nav to Route with parameter -> OrderDetails/{OrderId}
-            oRouter.navTo("RouteOrderDetails", {
-                OrderId: orderId
-            });
-        };
+
+        // function toOrderDetails(oEvent) {
+        //     //get parameter orderId: source/model/object/property
+        //     var orderId = oEvent.getSource().getBindingContext("odataNorthwind").getObject().OrderID;
+        //     //get router for the instance
+        //     var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+        //     //nav to Route with parameter -> OrderDetails/{OrderId}
+        //     oRouter.navTo("RouteOrderDetails", {
+        //         OrderId: orderId
+        //     });
+        // };
 
         //binding for incidenceModel
         var Main = Controller.extend("logaligroup.Employees.controller.EmployeeDetails", []);
@@ -178,7 +179,7 @@ sap.ui.define([
         Main.prototype.updateIncidenceCreationDate = updateIncidenceCreationDate;
         Main.prototype.updateIncidenceReason = updateIncidenceReason;
         Main.prototype.updateIncidenceType = updateIncidenceType;
-        Main.prototype.toOrderDetails = toOrderDetails;
+        //Main.prototype.toOrderDetails = toOrderDetails;
 
         return Main;
 
