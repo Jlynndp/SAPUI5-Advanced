@@ -44,7 +44,46 @@ sap.ui.define([
             onClearSignature: function (oEvent) {
                 var signature = this.byId("signature");
                 signature.clear();
+            },
+
+            //this function will be called for each item in the order
+            factoryOrderDetails: function (listId, oContext) {
+                //get object context
+                var contextObject = oContext.getObject();
+
+                //set currency (the model doesn't include this property)
+                contextObject.Currency = "EUR";
+
+                //get units in stock: context/model/property/
+                var unitsInStock = oContext.getModel().getProperty("/Products(" + contextObject.ProductID + ")/UnitsInStock");
+
+                if (contextObject.Quantity <= unitsInStock) {
+                    var objectListItem = new sap.m.ObjectListItem({
+                        title: "{odataNorthwind>/Products(" + contextObject.ProductID + ")/ProductName} ({odataNorthwind>Quantity})",
+                        number: "{parts: [ {path: 'odataNorthwind>UnitPrice'}, {path: 'odataNorthwind>Currency'}], type: 'sap.ui.model.type.Currency', formatOptions: {showMeasure : false}}",
+                        numberUnit: "{odataNorthwind>Currency}"
+
+                    });
+                    return objectListItem;
+
+                } else {
+                    var customListItem = new sap.m.CustomListItem({
+                        content : [
+                            new sap.m.Bar({
+                                contentLeft: new sap.m.Label({
+                                    text : "{odataNorthwind>/Products(" + contextObject.ProductID + ")/ProductName} ({odataNorthwind>Quantity})"
+                                }),
+                                contentMiddle: new sap.m.ObjectStatus({
+                                    text : "{i18n>availableStock} {odataNorthwind>/Products(" + contextObject.ProductID + ")/UnitsInStock}", state : "Error"
+                                }),
+                                contentRight: new sap.m.Label({
+                                    text : "{parts: [ {path: 'odataNorthwind>UnitPrice'}, {path: 'odataNorthwind>Currency'}], type: 'sap.ui.model.type.Currency'}"
+                                })
+                            })
+                        ]
+                    });
+                    return customListItem;
+                }
             }
         });
-    }
-);
+    });
