@@ -40,8 +40,8 @@ sap.ui.define([
                 oRM.writeStyles();
                 oRM.write(">");
 
-                oRM.write("<canvas width='" + oControl.getProperty("width") + "' " + 
-                                  "height='" + oControl.getProperty("height") + "'");
+                oRM.write("<canvas width='" + oControl.getProperty("width") + "' " +
+                    "height='" + oControl.getProperty("height") + "'");
                 oRM.write("></canvas>");
                 oRM.write("</div>");
             },
@@ -52,16 +52,40 @@ sap.ui.define([
 
                 //to catch errors
                 try {
+                    //instance signature pad from standar library
                     this.signaturePad = new SignaturePad(canvas);
+                    this.signaturePad.fill = false;
+
+                    //activate listener for the event mousedown
+                    canvas.addEventListener("mousedown", function () {
+                        //set property value to true when stop mouse action
+                        this.signaturePad.fill = true;
+                    }.bind(this));
+
                 } catch (error) {
                     console.error(error);
                 }
-
             },
 
             //clear signature box content
             clear: function () {
                 this.signaturePad.clear();
+                this.signaturePad.fill = false;
+            },
+
+            //check if the box is not empty before call odata service
+            isFill: function () {
+                return this.signaturePad.fill;
+            },
+
+            //get binary of signature image (png)
+            getSignature: function () {
+                return this.signaturePad.toDataURL();
+            },
+
+            //get signature from backend to show in the front
+            setSignature: function (signature) {
+                this.signaturePad.fromDataURL(signature);
             }
         });
     }
