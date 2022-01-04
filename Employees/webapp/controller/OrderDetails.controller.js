@@ -2,15 +2,19 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/core/routing/History",
-    "sap/m/MessageBox"
+    "sap/m/MessageBox",
+    "sap/ui/model/Filter",
+    "sap/ui/model/FilterOperator"
 ],
 
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller 
      * @param {typeof sap.ui.core.routing.History} History 
      * @param {typeof sap.m.MessageBox} MessageBox
+     * @param {typeof sap.ui.model.Filter} Filter
+     * @param {typeof sap.ui.model.FilterOperator} FilterOperator
      */
-    function (Controller, History, MessageBox) {
+    function (Controller, History, MessageBox, Filter, FilterOperator) {
         function _onObjectMatched(oEvent) {
             //clear signature box
             this.onClearSignature();
@@ -35,6 +39,7 @@ sap.ui.define([
         };
 
         function _readSignature(orderId, employeeId) {
+            //read signature image
             this.getView().getModel("incidenceModel").read("/SignatureSet(OrderId='" + orderId +
                                                            "',SapId='" + this.getOwnerComponent().SapId +
                                                            "',EmployeeId='" + employeeId + "')", {
@@ -46,6 +51,20 @@ sap.ui.define([
                 }.bind(this),
                 error: function (data) {
                 }
+            });
+
+            //bind files
+            this.byId("fileUpload").bindAggregation("items", {
+                path: "incidenceModel>/FilesSet",
+                filters: [new Filter("OrderId", FilterOperator.EQ, orderId),
+                          new Filter("SapId", FilterOperator.EQ, this.getOwnerComponent().SapId),
+                          new Filter("EmployeeId", FilterOperator.EQ, employeeId)
+                ],
+                template: new sap.m.UploadCollectionItem({
+                    documentId: "{incidenceModel>AttId}",
+                    visibleEdit: false,
+                    fileName: "{incidenceModel>FileName}"
+                }).attachPress(this.downloadFile)
             });
         };
 
@@ -149,6 +168,60 @@ sap.ui.define([
                         },
                     });
                 };
+            },
+
+            //upload file executes Post method with slug and csrf-token parameters
+            onFileBeforeUpload: function (oEvent) {
+                let fileName = oEvent.getParameter("fileName");
+                let objectContext = oEvent.getSource().getBindingContext("odataNorthwind").getObject();
+
+                //slug: header parameter allow send key values for the file
+                let oCustomerHeaderSlug = new sap.m.UploadCollectionParameter({
+                    name: "slug",
+                    value: objectContext.OrderID + ";" + this.getOwnerComponent().SapId + ";" + objectContext.EmployeeID + ";" + fileName
+                });
+
+                //add slug parameter to previous parameters of the media object
+                oEvent.getParameters().addHeaderParameter(oCustomerHeaderSlug);
+            },
+
+            //update token every time files change
+            onFileChange: function (oEvent) {
+                //add csrf-token parameter
+                let oUploadCollection = oEvent.getSource();
+                let oCustomerHeaderToken = new sap.m.UploadCollectionParameter({
+                    name: "x-csrf-token",
+                    value: this.getView().getModel("incidenceModel").getSecurityToken()
+                });
+                oUploadCollection.addHeaderParameter(oCustomerHeaderToken);
+            },
+
+            //update collection after a new file has been uploaded
+            onFileUploadComplete: function(oEvent){
+                oEvent.getSource().getBinding("items").refresh();
+            },
+
+
+            //delete files in sap-system
+            onFileDeleted: function (oEvent) {
+                var oUploadCollection = oEvent.getSource();
+
+                //route to be deleted
+                var sPath = oEvent.getParameter("item").getBindingContext("incidenceModel").getPath();
+                this.getView().getModel("incidenceModel").remove(sPath, {
+                    success: function () {
+                        oUploadCollection.getBinding("items").refresh();
+                    },
+                    error: function () {
+                    }
+                });
+            },
+
+            //call file with /$value, using window methods
+            downloadFile: function (oEvent) {
+                const sPath = oEvent.getSource().getBindingContext("incidenceModel").getPath();
+                window.open("/sap/opu/odata/sap/YSAPUI5_SRV_01" + sPath + "/$value");
             }
+
         });
     });
