@@ -25,7 +25,7 @@
                 }
             },
             "YSAPUI5_SRV_01": {
-                "uri": "/sap/opu/odata/sap/YSAPUI5_SRV_01/",
+                "uri": "sap/opu/odata/sap/YSAPUI5_SRV_01/",
                 "type": "OData",
                 "settings": {
                     "odataVersion": "2.0",

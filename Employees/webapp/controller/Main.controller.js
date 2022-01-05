@@ -20,15 +20,15 @@ sap.ui.define([
                 //load model from file
                 //@ts-ignore
                 var oJSONModelEmployees = new sap.ui.model.json.JSONModel();
-                oJSONModelEmployees.loadData("./localService/mockdata/Employees.json", false);
+                oJSONModelEmployees.loadData("./model/json/Employees.json", false);
                 oView.setModel(oJSONModelEmployees, "jsonEmployees");
 
                 var oJSONModelCountries = new sap.ui.model.json.JSONModel();
-                oJSONModelCountries.loadData("./localService/mockdata/Countries.json", false);
+                oJSONModelCountries.loadData("./model/json/Countries.json", false);
                 oView.setModel(oJSONModelCountries, "jsonCountries");
 
                 var oJSONModelLayouts = new sap.ui.model.json.JSONModel();
-                oJSONModelLayouts.loadData("./localService/mockdata/Layouts.json", false);
+                oJSONModelLayouts.loadData("./model/json/Layouts.json", false);
                 oView.setModel(oJSONModelLayouts, "jsonLayouts");
 
                 //config columns properties

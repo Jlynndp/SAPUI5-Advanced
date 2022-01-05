@@ -69,7 +69,7 @@
                                   multiple="true"
                                   sameFilenameAllowed="true"
                                   instantUpload="true"
-                                  uploadUrl="/sap/opu/odata/sap/YSAPUI5_SRV_01/FilesSet"
+                                  uploadUrl="sap/opu/odata/sap/YSAPUI5_SRV_01/FilesSet"
                                   change="onFileChange"
                                   uploadComplete="onFileUploadComplete"
                                   beforeUploadStarts="onFileBeforeUpload"
